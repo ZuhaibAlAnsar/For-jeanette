@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>For You ❤️</title>
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: radial-gradient(circle at top, #2b0033 0%, #000000 100%) !important;
+    font-family: 'Georgia', serif;
+    color: white;
+    text-align: center;
+}
+
+/* Pages */
+.page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.hidden {
+    display: none;
+}
+
+h1 {
+    font-size: 3em;
+    text-shadow: 0 0 25px #ff66cc;
+}
+
+#message {
+    font-size: 1.5em;
+    width: 70%;
+    margin-top: 20px;
+    min-height: 120px;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 30px;
+    border: none;
+    margin: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    background: linear-gradient(45deg, #ff4da6, #ff99cc);
+    color: white;
+}
+
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px pink;
+}
+
+#noBtn {
+    position: relative;
+}
+
+.heart {
+    position: absolute;
+    font-size: 20px;
+    animation: float 6s linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes float {
+    from { transform: translateY(100vh); }
+    to { transform: translateY(-10vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8d1a4b46db.mp3?filename=romantic-piano-110624.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1 -->
+<div id="page1" class="page">
+    <h1>Happy Valentine’s Day, Jeanette My Love ❤️</h1>
+    <div id="message"></div>
+    <button onclick="startLove()">Start ❤️</button>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="page hidden">
+    <h1>Will you be my Valentine? 💖</h1>
+    <div>
+        <button onclick="celebrate()">Yes ❤️</button>
+        <button id="noBtn" onmouseover="moveNo()">No 😢</button>
+    </div>
+</div>
+
+<script>
+
+const text = "From the moment we started talking, something felt different. \
+You became my calm in chaos, my smile in silence, and my favorite thought every day. \
+Even if we are miles apart, my heart feels closest to you. ❤️";
+
+let i = 0;
+
+function typeWriter() {
+    if (i < text.length) {
+        document.getElementById("message").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 40);
+    } else {
+        setTimeout(() => {
+            document.getElementById("page1").classList.add("hidden");
+            document.getElementById("page2").classList.remove("hidden");
+        }, 2000);
+    }
+}
+
+function fadeInAudio(audio) {
+    audio.volume = 0;
+    audio.play();
+    let fade = setInterval(() => {
+        if (audio.volume < 0.5) {
+            audio.volume += 0.01;
+        } else {
+            clearInterval(fade);
+        }
+    }, 100);
+}
+
+function startLove() {
+    const music = document.getElementById("bgMusic");
+    fadeInAudio(music);
+    typeWriter();
+}
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 15 + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+}
+
+setInterval(createHeart, 300);
+
+function moveNo() {
+    const noBtn = document.getElementById("noBtn");
+    noBtn.style.position = "absolute";
+    noBtn.style.top = Math.random() * 80 + "vh";
+    noBtn.style.left = Math.random() * 80 + "vw";
+}
+
+function celebrate() {
+    document.getElementById("page2").innerHTML = `
+        <h1>You just made me the happiest person ❤️</h1>
+        <h2>Forever starts now 💖</h2>
+    `;
+    for (let i = 0; i < 120; i++) {
+        createHeart();
+    }
+}
+
+</script>
+
+</body>
+</html>
+
